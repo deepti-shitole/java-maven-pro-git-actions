@@ -1,4 +1,4 @@
-# Use a base image with Java and wget installed
+# Use a base image with Java and curl installed
 FROM openjdk:17-jdk-slim
 
 # Set environment variables
@@ -7,7 +7,9 @@ ENV MAVEN_HOME=/opt/maven
 
 # Download and install Maven
 RUN mkdir -p $MAVEN_HOME && \
-    wget -qO- https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xz --strip 1 -C $MAVEN_HOME
+    curl -fsSL -o maven.tar.gz https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz && \
+    tar -xzf maven.tar.gz -C $MAVEN_HOME --strip-components=1 && \
+    rm maven.tar.gz
 
 # Add Maven to PATH
 ENV PATH=$MAVEN_HOME/bin:$PATH
