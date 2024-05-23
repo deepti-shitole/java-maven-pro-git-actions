@@ -26,3 +26,4 @@ jobs:
     - name: Push Docker image to Docker Hub
       run: docker push "${{ secrets.docker_secret}}/my-java-app:latest"
       
+      
