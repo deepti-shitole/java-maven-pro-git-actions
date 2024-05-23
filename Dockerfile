@@ -1,6 +1,9 @@
-# Use a base image with Java installed
-FROM adoptopenjdk:11-jre-hotspot
+# Use a base image with Java and Maven installed
+FROM adoptopenjdk:17-jdk-hotspot
 
+# Install Maven
+RUN apt-get update && \
+    apt-get install -y maven
 
 # Set the working directory inside the container
 WORKDIR /app
