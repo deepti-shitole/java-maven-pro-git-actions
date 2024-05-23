@@ -9,7 +9,8 @@ WORKDIR /app
 COPY . .
 
 # Build the Maven project
-RUN mvn -B package   # -B flag specifies non-interactive mode
+# -B flag specifies non-interactive mode
+RUN mvn -B package  
 
 # Expose the port your application runs on
 EXPOSE 8080
