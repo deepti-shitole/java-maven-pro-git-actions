@@ -18,12 +18,12 @@ jobs:
         docker build -t my-java-app .
     
     - name: Log in to Docker Hub
-      run: echo "${{ secrets.docker_sec1 }}" | docker login -u "${{ secrets.docker_secret }}" --password-stdin
+      run: echo "${{ secrets.docker_token }}" | docker login -u "${{ secrets.docker_sec1 }}" --password-stdin
 
     - name: Tag Docker image
-      run: docker tag my-java-app "${{ secrets.docker_secret }}/my-java-app:latest"
+      run: docker tag my-java-app "${{ secrets.docker_sec1 }}/my-java-app:latest"
 
     - name: Push Docker image to Docker Hub
-      run: docker push "${{ secrets.docker_secret}}/my-java-app:latest"
+      run: docker push "${{ secrets.docker_sec1}}/my-java-app:latest"
       
       
