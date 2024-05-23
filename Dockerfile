@@ -1,5 +1,5 @@
 # Use a base image with Java and Maven pre-installed
-FROM maven:3.8.4-openjdk-17-slim
+FROM maven:3.8.4-openjdk-17-slim    # a slim variant to reduce image size.
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Build the Maven project
-RUN mvn -B package
+RUN mvn -B package   # -B flag specifies non-interactive mode
 
 # Expose the port your application runs on
 EXPOSE 8080
