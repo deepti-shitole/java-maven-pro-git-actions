@@ -1,11 +1,16 @@
-# Use a base image with Java and Maven installed
-FROM adoptopenjdk/openjdk11:ubi
+# Use a base image with Java and wget installed
+FROM openjdk:17-jdk-slim
 
+# Set environment variables
+ENV MAVEN_VERSION=3.8.4
+ENV MAVEN_HOME=/opt/maven
 
+# Download and install Maven
+RUN mkdir -p $MAVEN_HOME && \
+    wget -qO- https://downloads.apache.org/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar xz --strip 1 -C $MAVEN_HOME
 
-# Install Maven
-RUN apt-get update && \
-    apt-get install -y maven
+# Add Maven to PATH
+ENV PATH=$MAVEN_HOME/bin:$PATH
 
 # Set the working directory inside the container
 WORKDIR /app
