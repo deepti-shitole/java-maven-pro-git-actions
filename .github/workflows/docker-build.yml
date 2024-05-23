@@ -22,6 +22,8 @@ jobs:
 
     - name: Tag Docker image
       run: docker tag my-java-app "${{ secrets.docker_sec1 }}/my-java-app:latest"
+
+
       
 
     - name: Push Docker image to Docker Hub
