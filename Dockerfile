@@ -1,5 +1,5 @@
 # Use a base image with Java and Maven installed
-FROM adoptopenjdk:17-jdk-slim
+FROM adoptopenjdk/openjdk11:ubi
 
 
 
