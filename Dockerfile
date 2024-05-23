@@ -1,8 +1,7 @@
 # Use a base image with Java and Maven installed
 FROM adoptopenjdk:17-jdk-slim
 
-# Set the JAVA_HOME environment variable
-ENV JAVA_HOME /opt/java/openjdk
+
 
 # Install Maven
 RUN apt-get update && \
