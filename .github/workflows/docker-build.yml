@@ -21,13 +21,10 @@ jobs:
       run: docker login -u "${{ secrets.docker_username }}" -p "${{ secrets.docker_sec1 }}"
 
     - name: Tag Docker image
-      run: docker tag my-java-app "${{ secrets.docker_sec1 }}/my-java-app:latest"
-
-
-      
+      run: docker tag my-java-app "${{ secrets.docker_username }}/my-java-app:latest"
 
     - name: Push Docker image to Docker Hub
-      run: docker push "${{ secrets.docker_sec1}}/my-java-app:latest"
+      run: docker push "${{ secrets.docker_username}}/my-java-app:latest"
       
       
       
