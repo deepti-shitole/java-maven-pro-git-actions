@@ -1,5 +1,6 @@
 # Use a base image with Java and Maven pre-installed
-FROM maven:3.8.4-openjdk-17-slim    # a slim variant to reduce image size.
+# a slim variant to reduce image size.
+FROM maven:3.8.4-openjdk-17-slim    
 
 # Set the working directory inside the container
 WORKDIR /app
