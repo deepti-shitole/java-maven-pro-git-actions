@@ -1,0 +1,27 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want to trigger the build on
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Build Docker image
+      run: |
+        docker build -t my-java-app .
+    
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.docker_token }}" | docker login -u "${{ secrets.docker_secret }}" --password-stdin
+
+    - name: Tag Docker image
+      run: docker tag my-java-app "${{ secrets.docker_secret }}/my-java-app:latest"
+
+    - name: Push Docker image to Docker Hub
+      run: docker push "${{ secrets.docker_secret}}/my-java-app:latest"
