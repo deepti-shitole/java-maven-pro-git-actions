@@ -1,22 +1,32 @@
-# Use a base image with Java and Maven pre-installed
-# a slim variant to reduce image size.
-FROM maven:3.8.4-openjdk-17-slim    
+# Stage 1: Build stage
+FROM maven:3.8.4-openjdk-17-slim AS build
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven project files into the container
-COPY . .
+# Copy only the POM file to cache dependencies
+COPY pom.xml .
+
+# Download dependencies. This layer will be cached if the POM hasn't changed
+RUN mvn -B dependency:go-offline
+
+# Copy the rest of the source code
+COPY src src
 
 # Build the Maven project
-# -B flag specifies non-interactive mode
-RUN mvn -B package  
+RUN mvn -B package
+
+# Stage 2: Runtime stage
+FROM openjdk:17-slim AS runtime
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the built JAR from the build stage
+COPY --from=build /app/target/my-app-1.0-SNAPSHOT.jar .
 
 # Expose the port your application runs on
 EXPOSE 8080
 
 # Command to run the application
-CMD ["java", "-jar", "target/my-app-1.0-SNAPSHOT.jar"]
-
-
-
+CMD ["java", "-jar", "my-app-1.0-SNAPSHOT.jar"]
