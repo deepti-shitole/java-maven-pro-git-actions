@@ -23,7 +23,9 @@ FROM openjdk:17-slim AS runtime
 WORKDIR /app
 
 # Copy the built JAR from the build stage
-COPY --from=build /app/target/my-app-1.0-SNAPSHOT.jar .
+# Copy the built JAR from the build stage
+COPY --from=build /app/target/gs-maven-0.1.0.jar .
+
 
 # Expose the port your application runs on
 EXPOSE 8080
