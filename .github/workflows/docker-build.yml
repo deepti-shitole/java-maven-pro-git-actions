@@ -21,7 +21,6 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: 'deeptidocker11/my-java-app:latest'
-
         format: sarif
         output: trivy-results.sarif
         scan-type: image
