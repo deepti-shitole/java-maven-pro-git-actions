@@ -19,17 +19,21 @@ jobs:
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
-      continue-on-error: false
       with:
-        image-ref: 'deeptidocker11/javaprogram1:myjavaimage' 
-        format: 'sarif'
-        output: 'trivy-results.sarif'
+        image-ref: 'deeptidocker11/javaprogram1:myjavaimage'
+        format: sarif
+        output: trivy-results.sarif
+        scan-type: image
+        scan-ref: .
+        ignore-unfixed: false
+        vuln-type: os,library
+        severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
+        list-all-pkgs: false
 
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: 'trivy-results.sarif'   
-    
     
     - name: Log in to Docker Hub
       run: docker login -u "${{ secrets.docker_username }}" -p "${{ secrets.docker_sec1 }}"
@@ -38,9 +42,4 @@ jobs:
       run: docker tag my-java-app "${{ secrets.docker_username }}/my-java-app:latest"
 
     - name: Push Docker image to Docker Hub
-      run: docker push "${{ secrets.docker_username}}/my-java-app:latest"
-
-      
-      
-      
-      
+      run: docker push "${{ secrets.docker_username }}/my-java-app:latest"
