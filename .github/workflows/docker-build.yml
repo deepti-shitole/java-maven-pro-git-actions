@@ -21,17 +21,16 @@ jobs:
     - name: Pull Trivy Docker image
       run: docker pull aquasec/trivy
 
-    # Run Trivy to scan the Docker image
+   # Run Trivy to scan the Docker image
     - name: Run Trivy vulnerability scanner
       run: |
-        docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy deeptidocker11/javaprogram1:myjavaimage
+        docker run --rm aquasec/trivy deeptidocker11/javaprogram1:myjavaimage
 
-
+    # Upload Trivy scan results to GitHub Security tab
     - name: Upload Trivy scan results to GitHub Security tab
       uses: github/codeql-action/upload-sarif@v2
       with:
-        sarif_file: 'trivy-results.sarif'   
-       
+        sarif_file: 'trivy-results.sarif'
     
     - name: Log in to Docker Hub
       run: docker login -u "${{ secrets.docker_username }}" -p "${{ secrets.docker_sec1 }}"
