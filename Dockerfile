@@ -22,9 +22,6 @@ FROM openjdk:17-slim AS runtime
 # Set the working directory inside the container
 WORKDIR /app
 
-# Update and install the latest version of zlib1g to fix the vulnerability
-RUN apt-get update && apt-get install -y zlib1g && apt-get upgrade -y && apt-get clean
-
 
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/gs-maven-0.1.0.jar .
