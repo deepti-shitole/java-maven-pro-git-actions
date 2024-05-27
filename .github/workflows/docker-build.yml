@@ -21,7 +21,7 @@ jobs:
       uses: aquasecurity/trivy-action@master
       continue-on-error: false
       with:
-        image-ref: deeptidocker11/javaprogram1:myjavaimage  
+        image-ref: 'deeptidocker11/javaprogram1:myjavaimage' 
         format: 'sarif'
         output: 'trivy-results.sarif'
 
