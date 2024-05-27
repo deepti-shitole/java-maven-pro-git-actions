@@ -20,7 +20,8 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'deeptidocker11/javaprogram1:myjavaimage'
+        image-ref: 'deeptidocker11/my-java-app:latest'
+
         format: sarif
         output: trivy-results.sarif
         scan-type: image
