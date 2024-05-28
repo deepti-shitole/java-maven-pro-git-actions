@@ -27,15 +27,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-    - name: Run tests
-      run: mvn -B test
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@v1
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
+    
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Run tests
+      run: mvn -B test
+   
 
 
       
