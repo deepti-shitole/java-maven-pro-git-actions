@@ -23,6 +23,6 @@ jobs:
     steps:
       - name: Wait for SonarQube to be up
         run: |
-          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -f http://localhost:9000/api/system/health)" != "200" ]]; do sleep 5; done' || exit 1
+          timeout 600 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -f http://localhost:9000/api/system/health)" != "200" ]]; do sleep 5; done' || exit 1
 
       # Add steps to build and analyze your project
