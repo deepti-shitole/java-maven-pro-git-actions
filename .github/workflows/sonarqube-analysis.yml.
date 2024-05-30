@@ -21,18 +21,19 @@ jobs:
         options: --health-cmd="wget -q -O - http://localhost:9000/api/system/health || exit 1" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
-      - name: Wait for SonarQube to be up
-        run: |
-          timeout 600 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -f http://localhost:9000/api/system/health)" != "200" ]]; do sleep 5; done' || exit 1
-
-      - name: Check out code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up JDK 11
+      - name: Set up JDK
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
           java-version: '11'
 
-      - name: Build and analyze with Maven
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=deepti-shitole_java-maven-pro-git-actions
+      - name: Build with Maven
+        run: mvn -B verify
+
+      - name: SonarQube Scan
+        run: mvn -B sonar:sonar \
+             -Dsonar.projectKey=deepti-shitole_java-maven-pro-git-actions \
+             -Dsonar.host.url=http://localhost:9000 \
+             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
