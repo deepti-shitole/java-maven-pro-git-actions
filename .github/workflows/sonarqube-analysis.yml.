@@ -1,0 +1,28 @@
+name: SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - main  # adjust branch name as needed
+  pull_request:
+    branches:
+      - main  # adjust branch name as needed
+
+jobs:
+  sonarqube:
+    name: SonarQube Analysis
+    runs-on: ubuntu-latest
+
+    services:
+      sonarqube:
+        image: sonarqube:8.9-community
+        ports:
+          - 9000:9000
+        options: --health-cmd="wget -q -O - http://localhost:9000/api/system/health || exit 1" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - name: Wait for SonarQube to be up
+        run: |
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -f http://localhost:9000/api/system/health)" != "200" ]]; do sleep 5; done' || exit 1
+
+      # Add steps to build and analyze your project
