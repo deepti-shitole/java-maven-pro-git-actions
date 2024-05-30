@@ -25,4 +25,17 @@ jobs:
         run: |
           timeout 600 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -f http://localhost:9000/api/system/health)" != "200" ]]; do sleep 5; done' || exit 1
 
-      # Add steps to build and analyze your project
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Build with Maven
+        run: mvn -B verify
+
+      - name: Analyze with SonarQube
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=deepti-shitole_java-maven-pro-git-actions
